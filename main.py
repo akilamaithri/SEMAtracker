@@ -9,10 +9,10 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 pygame.init()
 
 # Load audio tracks (replace filenames with your actual audio files)
-audio_track_1 = pygame.mixer.Sound("fire-1.mp3")
-audio_track_2 = pygame.mixer.Sound("fire-2.mp3")
-audio_track_3 = pygame.mixer.Sound("water-1.mp3")
-audio_track_4 = pygame.mixer.Sound("water-3.mp3")
+audio_track_1 = pygame.mixer.Sound("1.mp3")
+audio_track_2 = pygame.mixer.Sound("2.mp3")
+audio_track_3 = pygame.mixer.Sound("3.mp3")
+audio_track_4 = pygame.mixer.Sound("4.mp3")
 
 # Capture video from webcam
 cap = cv2.VideoCapture(0)
@@ -20,6 +20,10 @@ cap = cv2.VideoCapture(0)
 # State variables for tracking face position and audio playback
 current_position = None
 last_audio_played = None
+last_change_time = None  # Variable to track time of last audio change
+
+# Define delay in seconds
+delay = 1  # Change to desired delay (e.g., 0.5 for half a second)
 
 # Check if webcam is opened successfully
 if not cap.isOpened():
@@ -60,26 +64,30 @@ while True:
         else:
             new_position = 4
 
-        # Audio playback based on position change and playback state
+        # Audio playback with delay
         if new_position != current_position and new_position != last_audio_played:
             current_position = new_position
-            last_audio_played = new_position
 
-            # Stop any currently playing audio
-            pygame.mixer.stop()
+            # Check if enough time has passed since last change
+            if last_change_time is None or time.time() - last_change_time >= delay:
+                # Stop any currently playing audio
+                pygame.mixer.stop()
 
-            if new_position == 1:
-                audio_track_1.play()  # Play only once for new position
-                print("Position:", new_position)
-            elif new_position == 2:
-                audio_track_2.play()
-                print("Position:", new_position)
-            elif new_position == 3:
-                audio_track_3.play()
-                print("Position:", new_position)
-            elif new_position == 4:
-                audio_track_4.play()
-                print("Position:", new_position)
+                if new_position == 1:
+                    audio_track_1.play()
+                    print("Position:", new_position)
+                elif new_position == 2:
+                    audio_track_2.play()
+                    print("Position:", new_position)
+                elif new_position == 3:
+                    audio_track_3.play()
+                    print("Position:", new_position)
+                elif new_position == 4:
+                    audio_track_4.play()
+                    print("Position:", new_position)
+
+                # Update last change time
+                last_change_time = time.time()
 
         # Draw rectangle around the face
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
