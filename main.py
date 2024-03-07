@@ -9,10 +9,10 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 pygame.init()
 
 # Load audio tracks (replace filenames with your actual audio files)
-audio_track_1 = pygame.mixer.Sound("1.mp3")
-audio_track_2 = pygame.mixer.Sound("2.mp3")
-audio_track_3 = pygame.mixer.Sound("3.mp3")
-audio_track_4 = pygame.mixer.Sound("4.mp3")
+audio_track_1 = pygame.mixer.Sound("fire-2.mp3")
+audio_track_2 = pygame.mixer.Sound("fire-1.mp3")
+audio_track_3 = pygame.mixer.Sound("water-1.mp3")
+audio_track_4 = pygame.mixer.Sound("water-3.mp3")
 
 # Capture video from webcam
 cap = cv2.VideoCapture(0)
@@ -23,7 +23,7 @@ last_audio_played = None
 last_change_time = None  # Variable to track time of last audio change
 
 # Define delay in seconds
-delay = 1  # Change to desired delay (e.g., 0.5 for half a second)
+delay = 2  # Change to desired delay (e.g., 0.5 for half a second)
 
 # Check if webcam is opened successfully
 if not cap.isOpened():
